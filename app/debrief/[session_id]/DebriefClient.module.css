@@ -1,0 +1,83 @@
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.likert {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.likertLabel {
+  font-size: 14px;
+}
+
+.likertScale {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.likertOptions {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+}
+
+.likertButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  border-radius: 50%;
+  font-variant-numeric: tabular-nums;
+}
+
+.likertButton:hover {
+  background: rgba(200, 205, 211, 0.06);
+}
+
+.likertSelected {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.likertSelected:hover {
+  background: var(--accent);
+  filter: brightness(1.05);
+}
+
+.commentField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "session_id": "s001",
+    "reviewer_id": "R1",
+    "artifact_id": "CS-01",
+    "system_label": "System 1",
+    "architecture_internal": "A",
+    "draft_path": "data/drafts/draft_CS-01_A.md",
+    "source_path": "data/sources/CS-01.md"
+  },
+  {
+    "session_id": "s002",
+    "reviewer_id": "R1",
+    "artifact_id": "CS-04",
+    "system_label": "System 2",
+    "architecture_internal": "B",
+    "draft_path": "data/drafts/draft_CS-04_B.md",
+    "source_path": "data/sources/CS-04.md"
+  },
+  {
+    "session_id": "s003",
+    "reviewer_id": "R2",
+    "artifact_id": "CS-04",
+    "system_label": "System 2",
+    "architecture_internal": "A",
+    "draft_path": "data/drafts/draft_CS-04_A.md",
+    "source_path": "data/sources/CS-04.md"
+  },
+  {
+    "session_id": "s004",
+    "reviewer_id": "R2",
+    "artifact_id": "CS-01",
+    "system_label": "System 1",
+    "architecture_internal": "B",
+    "draft_path": "data/drafts/draft_CS-01_B.md",
+    "source_path": "data/sources/CS-01.md"
+  },
+  {
+    "session_id": "s005",
+    "reviewer_id": "R3",
+    "artifact_id": "CS-02",
+    "system_label": "System 1",
+    "architecture_internal": "A",
+    "draft_path": "data/drafts/draft_CS-02_A.md",
+    "source_path": "data/sources/CS-02.md"
+  },
+  {
+    "session_id": "s006",
+    "reviewer_id": "R3",
+    "artifact_id": "CS-05",
+    "system_label": "System 2",
+    "architecture_internal": "B",
+    "draft_path": "data/drafts/draft_CS-05_B.md",
+    "source_path": "data/sources/CS-05.md"
+  },
+  {
+    "session_id": "s007",
+    "reviewer_id": "R4",
+    "artifact_id": "CS-06",
+    "system_label": "System 2",
+    "architecture_internal": "A",
+    "draft_path": "data/drafts/draft_CS-06_A.md",
+    "source_path": "data/sources/CS-06.md"
+  },
+  {
+    "session_id": "s008",
+    "reviewer_id": "R4",
+    "artifact_id": "CS-03",
+    "system_label": "System 1",
+    "architecture_internal": "B",
+    "draft_path": "data/drafts/draft_CS-03_B.md",
+    "source_path": "data/sources/CS-03.md"
+  }
+]

@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.env*.local
+.env
+!.env.example
+logs/*.jsonl
+logs/*.csv
+!logs/.gitkeep

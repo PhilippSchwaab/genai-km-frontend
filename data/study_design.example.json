@@ -1,0 +1,11 @@
+{
+  "_comment": "Declarative study design. Run `npm run setup` to generate data/session_config.json from this file. Each assignments entry is 'ARTIFACT_ID/ARCH' where ARCH is 'A' or 'B'. Filenames follow the convention: data/drafts/draft_{ARTIFACT}_{A|B}.md and data/sources/{ARTIFACT}.md.",
+  "system_labels": { "A": "System 1", "B": "System 2" },
+  "reviewers": ["R1", "R2", "R3", "R4"],
+  "assignments": {
+    "R1": ["CS-01/A", "CS-04/B"],
+    "R2": ["CS-04/A", "CS-01/B"],
+    "R3": ["CS-02/A", "CS-05/B"],
+    "R4": ["CS-06/A", "CS-03/B"]
+  }
+}

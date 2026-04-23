@@ -1,0 +1,166 @@
+.block {
+  position: relative;
+  padding: var(--space-3) var(--space-4);
+  margin: 0 calc(var(--space-4) * -1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.block:hover {
+  background: rgba(200, 205, 211, 0.03);
+  border-color: var(--border);
+}
+
+.block.disposed {
+  background: rgba(200, 205, 211, 0.03);
+  border-color: var(--border);
+}
+
+.block.overlayOpen {
+  border-color: var(--border-strong);
+  background: rgba(200, 205, 211, 0.04);
+}
+
+.block.removed {
+  opacity: 0.7;
+}
+
+.block.removed .content {
+  color: var(--block-removed-text);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-dim);
+}
+
+.marker {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+  min-height: 14px;
+}
+
+.content :global(p:last-child),
+.content :global(ul:last-child),
+.content :global(ol:last-child),
+.content :global(pre:last-child),
+.content :global(table:last-child) {
+  margin-bottom: 0;
+}
+
+.toolbar {
+  position: absolute;
+  top: -12px;
+  right: var(--space-4);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.block:hover .toolbar,
+.block:focus-within .toolbar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toolbar button {
+  padding: 3px 8px;
+  font-size: 12px;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--text);
+}
+
+.toolbar button:hover {
+  background: rgba(200, 205, 211, 0.08);
+}
+
+.toolbar button[aria-pressed="true"] {
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.editor textarea {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  min-height: 140px;
+}
+
+.editorActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.undoRow {
+  margin-top: var(--space-2);
+}
+
+.undoLink {
+  border: none;
+  padding: 0;
+  background: transparent;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--text-dim);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.undoLink:hover {
+  color: var(--text);
+  background: transparent;
+}
+
+.flagMenu {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.flagHeader {
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.flagList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.flagItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.flagItem input[type="radio"] {
+  width: auto;
+  accent-color: var(--accent);
+  margin: 0;
+}

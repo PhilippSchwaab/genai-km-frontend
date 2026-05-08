@@ -8,7 +8,7 @@
     "R4": ["CS-06/A", "CS-03/B"]
   },
   "system_label_overrides": {
-    "R1": { "A": "System 2", "B": "System 1" },
-    "R3": { "A": "System 2", "B": "System 1" }
+    "R2": { "A": "System 2", "B": "System 1" },
+    "R4": { "A": "System 2", "B": "System 1" }
   }
 }

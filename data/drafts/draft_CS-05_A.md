@@ -1,202 +1,63 @@
-# Wiki Entry: CS-05 — Error Handling and Monitoring
-
----
-
-**Source Artifact:** CS-05_Error_Handling_and_Monitoring_compiled (development_activity)
-**Project:** [Project Name]
-**Work Items:** AB#3603, AB#3626
-**Period:** 2026-03-06 to 2026-03-11
-**Total Commits:** 7
-**Contributors:** [Developer 1]
-
----
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Work Items](#work-items)
-3. [Decisions](#decisions)
-4. [Changes Implemented](#changes-implemented)
-5. [Pull Requests](#pull-requests)
-6. [Commit History](#commit-history)
-7. [Files Changed](#files-changed)
-8. [Change Summary](#change-summary)
-9. [Blockers & Notes](#blockers--notes)
-
----
-
-## Overview
-
-This development activity covers two related tasks focused on improving error resilience and operational visibility in the LKV Logistic CLI application. Work shifted the `SyncOrderFeedback` process from a fail-fast approach to a log-and-continue approach, and introduced an SMTP-based email notification system to alert on detected errors across all sync commands.
-
----
-
-## Work Items
-
-| ID | Title | Type | State | Assigned To |
-|----|-------|------|-------|-------------|
-| AB#3603 | Fix SyncOrderFeedback | Task | Active | [Developer 1] |
-| AB#3626 | Add Email Feedback | Task | Active | [Developer 1] |
-
-> **Note:** No formal descriptions were provided for either work item in the source artifact.
-
----
+## Summary
+Error handling and monitoring improvements shipped across two work items (AB#3603, AB#3626) between 2026-03-06 and 2026-03-11. Work covered two areas: making `SyncOrderFeedback` resilient to bad data by logging errors instead of failing, and introducing an SMTP-based email notification service to alert on errors detected during sync operations. All work authored and delivered by [Developer 1] across 7 commits.
 
 ## Decisions
+- Change `SyncOrderFeedback` behavior to log errors instead of failing hard. Driver: improve resilience against bad or incomplete data in the sync pipeline (AB#3603).
+- Introduce SMTP email notifications (via STARTTLS) for error alerting rather than relying solely on logs. Driver: proactive error visibility (AB#3626).
+- Use STARTTLS for SMTP transport. Driver: security requirement (commit d98d346, correcting initial implementation).
 
-| # | Decision | Attribution | Related Work Item |
-|---|----------|-------------|-------------------|
-| 1 | `SyncOrderFeedback` behavior changed from **failing on errors** to **logging errors and continuing** | [Developer 1] | AB#3603 |
-| 2 | Bad/malformed data (missing fields) in CSV processing will be **silently ignored** rather than causing a failure | [Developer 1] | AB#3603 |
-| 3 | `ReadingExceptionErrors` in CSV parsing will be **ignored** rather than propagated | [Developer 1] | AB#3603 |
-| 4 | Error notifications will be delivered via **SMTP email** when an error is detected in any sync command | [Developer 1] | AB#3626 |
-| 5 | SMTP connection security will use **STARTTLS** (corrected from an earlier implementation) | [Developer 1] | AB#3626 |
-| 6 | All sync commands (`SyncOrderFeedback`, `SyncOrders`, `SyncProducts`, `SyncStocks`) will be wrapped in **try/catch blocks** to capture and forward all errors via SMTP | [Developer 1] | AB#3626 |
+## Action items (with owner and due date where stated)
+- AB#3603 remains in **Active** state — [Developer 1] to confirm completion or identify remaining work. (No due date recorded.)
+- AB#3626 remains in **Active** state — [Developer 1] to confirm completion or identify remaining work. (No due date recorded.)
 
----
+## Blockers and open questions
+- Both work items are still marked **Active** despite the associated PR being merged. It is unclear whether this reflects a tracking gap or genuinely outstanding work.
+- No descriptions were provided for either work item (AB#3603, AB#3626); acceptance criteria and scope boundaries are not documented.
 
-## Changes Implemented
+## Implementation detail (commits, files, line counts where present)
 
-### AB#3603 — Fix SyncOrderFeedback
+**Work item AB#3603 — Fix SyncOrderFeedback (3 commits)**
 
-- **Error logging instead of failing:** Modified `SyncOrderFeedbackCommand.cs` and `SyncStocksCommand.cs` to log errors rather than halt execution on failure. ([Developer 1], 2026-03-06)
-- **Ignore bad data on missing field:** Updated `CSVBestandsmeldung.cs` and `CsvAuftragsRueckmeldung.cs` to skip records with missing fields instead of throwing. ([Developer 1], 2026-03-09)
-- **Ignore `ReadingExceptionErrors`:** Further updated `CSVBestandsmeldung.cs` and `CsvAuftragsRueckmeldung.cs` to suppress CSV reading exceptions. ([Developer 1], 2026-03-09)
+| Hash | Date | Message | Files changed | Insertions | Deletions |
+|------|------|---------|---------------|------------|-----------|
+| 87bd6ea | 2026-03-06 | Change SyncOrderFeedback behavior to Log Errors instead of failing | 4 | +68 | −39 |
+| 59f5cde | 2026-03-09 | Fix Ignore bad data on fix missing field found | 2 | +8 | — |
+| 532426c | 2026-03-09 | Fix Ignore ReadingExceptionErrors | 2 | +10 | — |
 
-### AB#3626 — Add Email Feedback
-
-- **Email notification on error detection:** Added email notification logic to all four sync commands (`SyncOrderFeedbackCommand.cs`, `SyncOrdersCommand.cs`, `SyncProductsCommand.cs`, `SyncStocksCommand.cs`). Credential secret examples added for production and staging Kubernetes overlays. Application settings and project file updated. ([Developer 1], 2026-03-10)
-- **Email notification service implementation:** Added three new files — `SmtpConfiguration.cs`, `EmailNotificationService.cs`, and `IEmailNotificationService.cs` — providing the full SMTP notification service and its interface. ([Developer 1], 2026-03-10)
-- **STARTTLS fix:** Corrected `EmailNotificationService.cs` to use STARTTLS for secure SMTP connections. ([Developer 1], 2026-03-10)
-- **Global try/catch wrapping:** Wrapped all sync command execution paths in try/catch blocks to ensure all unhandled errors are caught and dispatched via SMTP. ([Developer 1], 2026-03-11)
-
----
-
-## Pull Requests
-
-| PR | Title | Author | Created | Completed | Merge Strategy |
-|----|-------|--------|---------|-----------|----------------|
-| #353 | AB#3626: Add Try Catch Block to catch all errors and send them via SMTP | [Developer 1] | 2026-03-11 | 2026-03-11 | Rebase |
+Key files touched:
+- `SyncOrderFeedbackCommand.cs`
+- `SyncStocksCommand.cs`
+- `CSVBestandsmeldung.cs`
+- `CsvAuftragsRueckmeldung.cs`
 
 ---
 
-## Commit History
+**Work item AB#3626 — Add Email Feedback (4 commits, PR #353)**
 
-| Date | Hash | Message | Work Item | Author |
-|------|------|---------|-----------|--------|
-| 2026-03-06 | `87bd6ea` | Change SyncOrderFeedback behavior to Log Errors instead of failing | AB#3603 | [Developer 1] |
-| 2026-03-09 | `59f5cde` | Fix Ignore bad data on fix missing field found | AB#3603 | [Developer 1] |
-| 2026-03-09 | `532426c` | Fix Ignore ReadingExceptionErrors | AB#3603 | [Developer 1] |
-| 2026-03-10 | `b3416f6` | Add Email Notification if error is detected | AB#3626 | [Developer 1] |
-| 2026-03-10 | `7f2d7e6` | Add Missing Email Notification Files | AB#3626 | [Developer 1] |
-| 2026-03-10 | `d98d346` | Fix To use STARTTLS | AB#3626 | [Developer 1] |
-| 2026-03-11 | `e8bc570` | Add Try Catch Block to catch all errors and send them via SMTP | AB#3626 | [Developer 1] |
+| Hash | Date | Message | Files changed | Insertions | Deletions |
+|------|------|---------|---------------|------------|-----------|
+| b3416f6 | 2026-03-10 | Add Email Notification if error is detected | 9 | +81 | −4 |
+| 7f2d7e6 | 2026-03-10 | Add Missing Email Notification Files | 3 | +132 | — |
+| d98d346 | 2026-03-10 | Fix To use STARTTLS | 1 | +5 | −1 |
+| e8bc570 | 2026-03-11 | Add Try Catch Block to catch all errors and send them via SMTP | 4 | +116 | −86 |
 
----
+Key files touched:
+- `EmailNotificationService.cs` (112 lines added — core notification logic)
+- `IEmailNotificationService.cs` (interface, 6 lines)
+- `SmtpConfiguration.cs` (configuration model, 14 lines)
+- `SyncOrderFeedbackCommand.cs`, `SyncOrdersCommand.cs`, `SyncProductsCommand.cs`, `SyncStocksCommand.cs` (try/catch wrappers added to all sync commands)
+- `appsettings.json` (SMTP settings added)
+- `credentials-secret.yaml.example` (production and staging Kubernetes secret examples added)
+- `LKVLogistic.Cli.csproj` (new dependency added)
 
-## Files Changed
-
-### `87bd6ea` — AB#3603: Change SyncOrderFeedback behavior to Log Errors instead of failing
-
-| File | Change |
-|------|--------|
-| `.../Commands/SyncOrderFeedbackCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/Commands/SyncStocksCommand.cs` | Modified |
-| `src/LkvLogistic/CSVBestandsmeldung.cs` | Modified |
-| `src/LkvLogistic/CsvAuftragsRueckmeldung.cs` | Modified |
-
-*4 files changed, 68 insertions(+), 39 deletions(−)*
+PR #353 merged 2026-03-11 via rebase.
 
 ---
 
-### `59f5cde` — AB#3603: Fix Ignore bad data on fix missing field found
+**Totals across both work items:**
+- 25 files changed
+- 420 insertions(+)
+- 130 deletions(−)
 
-| File | Change |
-|------|--------|
-| `src/LkvLogistic/CSVBestandsmeldung.cs` | Modified |
-| `src/LkvLogistic/CsvAuftragsRueckmeldung.cs` | Modified |
-
-*2 files changed, 8 insertions(+)*
-
----
-
-### `532426c` — AB#3603: Fix Ignore ReadingExceptionErrors
-
-| File | Change |
-|------|--------|
-| `src/LkvLogistic/CSVBestandsmeldung.cs` | Modified |
-| `src/LkvLogistic/CsvAuftragsRueckmeldung.cs` | Modified |
-
-*2 files changed, 10 insertions(+)*
-
----
-
-### `b3416f6` — AB#3626: Add Email Notification if error is detected
-
-| File | Change |
-|------|--------|
-| `.../overlays/lkv/production/credentials-secret.yaml.example` | Added |
-| `.../overlays/lkv/staging/credentials-secret.yaml.example` | Added |
-| `src/LKVLogistic.Cli/Commands/SyncOrderFeedbackCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/Commands/SyncOrdersCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/Commands/SyncProductsCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/Commands/SyncStocksCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/LKVLogistic.Cli.csproj` | Modified |
-| `src/LKVLogistic.Cli/Program.cs` | Modified |
-| `src/LKVLogistic.Cli/appsettings.json` | Modified |
-
-*9 files changed, 81 insertions(+), 4 deletions(−)*
-
----
-
-### `7f2d7e6` — AB#3626: Add Missing Email Notification Files
-
-| File | Change |
-|------|--------|
-| `.../Configurations/SmtpConfiguration.cs` | Added |
-| `.../EmailNotificationService/EmailNotificationService.cs` | Added |
-| `.../EmailNotificationService/IEmailNotificationService.cs` | Added |
-
-*3 files changed, 132 insertions(+)*
-
----
-
-### `d98d346` — AB#3626: Fix To use STARTTLS
-
-| File | Change |
-|------|--------|
-| `.../EmailNotificationService/EmailNotificationService.cs` | Modified |
-
-*1 file changed, 5 insertions(+), 1 deletion(−)*
-
----
-
-### `e8bc570` — AB#3626: Add Try Catch Block to catch all errors and send them via SMTP
-
-| File | Change |
-|------|--------|
-| `.../Commands/SyncOrderFeedbackCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/Commands/SyncOrdersCommand.cs` | Modified |
-| `.../Commands/SyncProductsCommand.cs` | Modified |
-| `src/LKVLogistic.Cli/Commands/SyncStocksCommand.cs` | Modified |
-
-*4 files changed, 116 insertions(+), 86 deletions(−)*
-
----
-
-## Change Summary
-
-| Metric | Value |
-|--------|-------|
-| Total files changed | 25 |
-| Total insertions | 420 |
-| Total deletions | 130 |
-| Net lines added | +290 |
-
----
-
-## Blockers & Notes
-
-- **No blockers** were recorded in the source artifact for this activity period.
-- Both work items (AB#3603, AB#3626) remain in **Active** state as of the end of the recorded period (2026-03-11); neither has been marked as closed or resolved in the source data.
-- Credential secret example files were added for both **production** and **staging** Kubernetes overlays as part of the SMTP configuration, indicating environment-specific secrets management is required before the email notification feature is fully operational.
+## Sources
+- Development activity report: CS-05_Error_Handling_and_Monitoring_compiled, 2026-03-06 to 2026-03-11. Work items AB#3603, AB#3626.

@@ -1,0 +1,21 @@
+session_id,reviewer_id,artifact_id,system_label,total_time_s,n_approved,n_edited,n_flagged_factual,n_flagged_missing,n_flagged_attribution,n_flagged_style,n_flagged_other,n_removed,final_edit_distance,likert_confidence,likert_effort
+s001,R1,CS-01,System 2,220,11,0,0,0,0,0,0,1,82,6,3
+s002,R1,CS-04,System 1,152,13,0,0,0,0,0,0,0,0,6,3
+s003,R2,CS-04,System 1,230,14,0,0,0,0,0,0,0,0,5,4
+s004,R2,CS-01,System 2,108,10,0,0,0,0,0,0,0,0,6,4
+s009,R1,CS-02,System 2,55,13,0,0,0,0,0,0,0,0,7,2
+s010,R1,CS-03,System 1,90,18,0,0,0,0,0,0,0,0,5,3
+s011,R1,CS-05,System 2,88,13,0,0,0,0,0,0,0,0,5,2
+s012,R1,CS-06,System 1,55,9,0,0,0,0,0,0,0,0,4,2
+s013,R1,CS-02,System 1,34,7,0,0,0,0,0,0,0,0,6,1
+s014,R1,CS-03,System 2,193,19,0,0,0,0,0,0,0,0,4,5
+s015,R1,CS-05,System 1,48,10,0,0,0,0,0,0,0,0,6,2
+s016,R1,CS-06,System 2,191,11,0,0,0,0,0,1,0,0,3,5
+s017,R2,CS-02,System 2,25,7,0,0,0,0,0,0,0,0,7,1
+s018,R2,CS-03,System 1,189,18,0,0,0,0,1,0,0,0,4,7
+s019,R2,CS-05,System 2,37,10,0,0,0,0,0,0,0,0,6,3
+s020,R2,CS-06,System 1,112,12,0,0,0,0,0,0,0,0,4,5
+s021,R2,CS-02,System 1,87,12,0,0,0,0,0,1,0,0,5,4
+s022,R2,CS-03,System 2,87,18,0,0,0,0,0,0,0,0,6,2
+s023,R2,CS-05,System 1,221,13,0,0,0,0,0,0,0,0,4,6
+s024,R2,CS-06,System 2,47,9,0,0,0,0,0,0,0,0,6,1

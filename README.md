@@ -2,6 +2,8 @@
 
 Local Next.js instrument for blinded, within-subjects review of AI-generated wiki drafts against their source artifacts.
 
+Completed studies are archived per run (`run_1/`, `run_2/`: session configs plus logs); the live `logs/` directory is git-ignored. Run 2 comprises an initial stage (s001–s004) and a completion stage with full reviewer crossing (s009–s024); s005–s008 are intentionally unused.
+
 ## Requirements
 
 - Node.js 20+ and npm
@@ -51,6 +53,13 @@ For iteration only: `npm run dev` (adds the Next.js dev overlay — avoid for re
    ```
 
    The generator (a) auto-numbers sessions (`s001`, `s002`, …), (b) resolves draft/source file paths, (c) fails loudly with a list if any referenced file is missing, and (d) prints a blinding map per reviewer so you can eyeball that `System 1/2` is assigned correctly.
+
+   > **Warning:** the generator renumbers sessions from `s001`. Never re-run
+   > `npm run setup` once sessions have been submitted — it breaks the
+   > `session_id` join with `logs/sessions_summary.csv`. To add sessions to a
+   > live study, append rows to `data/session_config.json` manually (see the
+   > `_note` in `data/study_design.json` and `REVIEW_PLAN_completion.md` for
+   > the Run-2 completion-stage example).
 
 4. `npm run build && npm run start` and hand off the URL (or folder, for same-OS handoff).
 

@@ -1,0 +1,10 @@
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"session_start","timestamp_ms":1778679739548,"payload":{"started_at_ms":1778679739515}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"block_disposition","timestamp_ms":1778679751343,"payload":{"block_id":"block_0","disposition":"approve"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679754088,"payload":{"pane":"source"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679861636,"payload":{"pane":"draft"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679868439,"payload":{"pane":"source"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679869237,"payload":{"pane":"draft"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679948771,"payload":{"pane":"source"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679948886,"payload":{"pane":"draft"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778679950637,"payload":{"pane":"source"}}
+{"session_id":"s007","reviewer_id":"R4","artifact_id":"CS-06","system_label":"System 1","event_type":"pane_focus","timestamp_ms":1778681551446,"payload":{"pane":"draft"}}

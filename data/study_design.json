@@ -1,43 +1,14 @@
 {
-  "_note": "Extended 2026-07: R3/R4 never participated; their planned sessions (s005-s008) were removed and the remaining artifacts assigned to R1/R2 as sessions s009-s024 (full crossing: both reviewers x {CS-02,CS-03,CS-05,CS-06} x {A,B}, enabling inter-rater agreement). session_config.json was extended manually because scripts/generate-sessions.mjs renumbers session IDs from s001 and would break the join with submitted sessions s001-s004. Do NOT run 'npm run setup' -- it would regenerate and renumber.",
-  "system_labels": {
-    "A": "System 1",
-    "B": "System 2"
-  },
-  "reviewers": [
-    "R1",
-    "R2"
-  ],
+  "_note": "Run 1 COMPLETION stage (added 2026-08): retrospective review of the archived Run 1 outputs for the four artifacts not covered by s001-s004, mirroring the Run 2 completion design (full crossing, R1+R2 x {CS-02,CS-03,CS-05,CS-06} x {A,B}). Session IDs s025-s040 continue after Run 2's s009-s024 because completion state is tracked client-side per (reviewer, session_id); reusing s009-s024 would collide with the reviewers' Run 2 browser state. Blinding uses the ORIGINAL Run 1 mapping (R1 default, R2 swapped). Written manually; do NOT run 'npm run setup' (the generator renumbers from s001). After all 16 sessions: merge logs into run_1/logs/ (see REVIEW_PLAN_run1_completion.md).",
+  "system_labels": { "A": "System 1", "B": "System 2" },
+  "reviewers": ["R1", "R2"],
   "assignments": {
-    "R1": [
-      "CS-01/A",
-      "CS-04/B",
-      "CS-02/A",
-      "CS-03/B",
-      "CS-05/A",
-      "CS-06/B",
-      "CS-02/B",
-      "CS-03/A",
-      "CS-05/B",
-      "CS-06/A"
-    ],
-    "R2": [
-      "CS-04/A",
-      "CS-01/B",
-      "CS-02/B",
-      "CS-03/A",
-      "CS-05/B",
-      "CS-06/A",
-      "CS-02/A",
-      "CS-03/B",
-      "CS-05/A",
-      "CS-06/B"
-    ]
+    "R1": ["CS-02/A", "CS-03/B", "CS-05/A", "CS-06/B",
+           "CS-02/B", "CS-03/A", "CS-05/B", "CS-06/A"],
+    "R2": ["CS-02/B", "CS-03/A", "CS-05/B", "CS-06/A",
+           "CS-02/A", "CS-03/B", "CS-05/A", "CS-06/B"]
   },
   "system_label_overrides": {
-    "R1": {
-      "A": "System 2",
-      "B": "System 1"
-    }
+    "R2": { "A": "System 2", "B": "System 1" }
   }
 }

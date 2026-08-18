@@ -1,57 +1,119 @@
-## Summary
-Implementation report for a tip-switch (Tipptaster) feature rolled out across Zenon HMI projects on production lines L6, L7, and L8 for customer Ompi (ticket 1378291). When a tip switch is physically connected to a line, the machine is prevented from switching into automatic mode. In tip-switch mode the operator can pre-select a machine speed. The implementation is identical across all affected projects. Authored by [Author 1], version 1.0, dated 2026-03-20.
-
-**Affected machines**
-
-| Line | Machine numbers |
-|------|----------------|
-| L6 | 13101, 13102, 13103, 13104 |
-| L7 | 13242, 13244, 13245, 13246 |
-| L8 | 13549, 13550, 13551, 13552 |
-
-**Zenon version:** 8.0 · **SCADA:** SCADAPC13106
+# Wiki Entry: CS-03 – Tip Switch Implementation (Lines V6, L7, L8)
 
 ---
 
-## Decisions
-- **Interlock logic via Zenon lock function** (`LockMachineAutoMode`): automatic mode buttons are locked whenever the tip switch is active (`X01.Wert = 1`) OR the machine is already running (`X02.Wert = 1`). No alternative approach recorded.
-- **Machine speed setpoint sourced from a new REAL variable** (`1_S7\db_allgemein.r32._10`) with hard limits of 10–200 pcs/min.
-- **Uniform implementation across all projects**: the same variable definitions, lock configuration, and screen changes are applied identically to every HMI project on L6, L7, and L8.
+**Source Artifact:** CS-03_Tip_Switch_Implementation_report (support_report)
+**Author:** [Author 1]
+**Date:** 2026-03-20
+**Version:** 1.0
+**Organization:** meshmakers.io
 
 ---
 
-## Action items (with owner and due date where stated)
-- (none recorded)
+## Table of Contents
+
+1. [Project Information](#project-information)
+2. [Overview](#overview)
+3. [Implementation Steps](#implementation-steps)
+   - 3.1 [Adding Variables](#31-adding-variables)
+   - 3.2 [Adding the Interlock](#32-adding-the-interlock)
+   - 3.3 [Adding New Language File Entries](#33-adding-new-language-file-entries)
+   - 3.4 [Adapting the "Start" Screen](#34-adapting-the-start-screen)
+   - 3.5 [Adapting the "Pop\_Favorites" Screen](#35-adapting-the-pop_favorites-screen)
+   - 3.6 [Adapting the Machine Speed Screen](#36-adapting-the-machine-speed-screen)
 
 ---
 
-## Blockers and open questions
-- (none recorded)
+## Project Information
+
+| Field | Value |
+|---|---|
+| **Customer** | Ompi |
+| **Customer Case No.** | 1378291 |
+| **Zenon Version** | 8.0 |
+| **SCADA** | Yes – SCADAPC13106 |
+
+### Machine Numbers & Client Projects
+
+| Line | Machine Numbers | Client Projects |
+|---|---|---|
+| **L6** | 13101, 13102, 13103, 13104 | 1_HMI_13101, 1_HMI_13102, 1_HMI_13103, 1_HMI_13104 |
+| **L7** | 13242, 13244, 13245, 13246 | 1_HMI_13242, 1_HMI_13244, 1_HMI_13245, 1_HMI_13246 |
+| **L8** | 13549, 13550, 13551, 13552 | 1_HMI_13549, 1_HMI_13550, 1_HMI_13551, 1_HMI_13552 |
 
 ---
 
-## Implementation detail (commits, files, line counts where present)
+## Overview
 
-### 1. New variables added (per project)
+The implementation adds tip switch (Tipptaster) functionality to Lines L6, L7, and L8. The key behavioral rules are:
 
-| Variable | Data block | Offset | Bit | Data type | Driver | Notes |
-|---|---|---|---|---|---|---|
-| `1_S7\db_allgemein.fkt.tipptaster_linie` | DB 1804 | 2 | 3 | Bool | S7TCP32 – 1_S7 TCP-IP | 1 = tip switch connected, auto mode disabled |
-| `1_S7\db_allgemein.r32._10` | DB 1804 | 160 | 0 | REAL | S7TCP32 – 1_S7 TCP-IP | Machine speed in pcs/min; setpoint min 10, max 200 |
+- When the tip switch is **active**, the machine **must not** be switched to automatic mode. The corresponding buttons in Zenon must be locked.
+- When the machine is in **tip switch mode**, the customer can **pre-select a machine speed**.
+- The implementation is **identical for every project**.
 
-Both variables use network address 1, driver object type: *Erweiterter Datenbaustein*.
+Two new variables are introduced: one for the tip switch state and one for machine speed.
 
-### 2. Interlock added
+---
 
-- **Lock name:** `LockMachineAutoMode`
-- **Variables:** `1_S7\db_anl_ges.eing`, `1_S7\db_allgemein.fkt.tipptaster_linie`
-- **Logic:** `(X01.Wert = 1) OR (X02.Wert = 1)`
+## Implementation Steps
 
-### 3. Language file entries added
+### 3.1 Adding Variables
 
-Two new string IDs per HMI project (Maschinengeschwindigkeit + Verriegelung), in German, English, and Italian:
+Two new variables must be added to each project.
 
-| Project(s) | `<Maschinengeschwindigkeit>` ID | `<Verriegelung>` ID |
+---
+
+#### Variable 1: `1_S7\db_allgemein.fkt.tipptaster_linie`
+
+| Parameter | Value |
+|---|---|
+| **Description** | `1` = Tip switch connected to line; automatic mode disabled |
+| **Network Address** | 1 |
+| **Data Block** | 1804 |
+| **Offset** | 2 |
+| **Bit Number** | 3 |
+| **Driver** | S7TCP32 – 1_S7 TCP-IP |
+| **Data Type** | Bool |
+| **Driver Object Type** | Extended Data Block |
+
+---
+
+#### Variable 2: `1_S7\db_allgemein.r32._10`
+
+| Parameter | Value |
+|---|---|
+| **Description** | Speed when tip switch is connected |
+| **Unit** | pcs/min |
+| **Network Address** | 1 |
+| **Data Block** | 1804 |
+| **Offset** | 160 |
+| **Bit Number** | 0 |
+| **Driver** | S7TCP32 – 1_S7 TCP-IP |
+| **Data Type** | REAL |
+| **Driver Object Type** | Extended Data Block |
+| **Setpoint Limits** | Min: 10 / Max: 200 |
+
+---
+
+### 3.2 Adding the Interlock
+
+A new interlock named **`LockMachineAutoMode`** must be created with the following configuration:
+
+| Parameter | Value |
+|---|---|
+| **Name** | LockMachineAutoMode |
+| **Variables** | `1_S7\db_anl_ges.eing`, `1_S7\db_allgemein.fkt.tipptaster_linie` |
+| **Logic** | `(X01.Wert = 1) OR (X02.Wert = 1)` |
+
+---
+
+### 3.3 Adding New Language File Entries
+
+Two new language string IDs must be added per project: one for **machine speed** (`<Maschinengeschwindigkeit>`) and one for the **interlock message** (`<Verriegelung>`).
+
+#### String ID Mapping per Project
+
+| Client Project(s) | `<Maschinengeschwindigkeit>` ID | `<Verriegelung>` ID |
 |---|---|---|
 | 1_HMI_13101 | HMI7748 | HMI7749 |
 | 1_HMI_13102, 1_HMI_13103 | HMI7756 | HMI7757 |
@@ -62,36 +124,72 @@ Two new string IDs per HMI project (Maschinengeschwindigkeit + Verriegelung), in
 | 1_HMI_13551 | HMI8936 | HMI8937 |
 | 1_HMI_13552 | HMI8514 | HMI8515 |
 
-**String content:**
+#### String Content: `<Maschinengeschwindigkeit>`
 
-- `<Maschinengeschwindigkeit>` — DE: *Max. Geschwindigkeit während Tiptaster aktiv* / EN: *Max. speed while touch switch is active* / IT: *Velocità massima quando l'interruttore a sfioramento è attivo*
-- `<Verriegelung>` — DE: *Funktion nicht möglich, solange die Maschine läuft oder Tiptaster an die Line angeschlossen ist!* / EN: *Function not possible while the machine is running or a Tip switch is connected to the line!* / IT: *Funzione non disponibile mentre la macchina è in funzione o se un interruttore a sfioramento è collegato alla linea!*
-
-### 4. Screen changes
-
-**Screen "Start" and screen "Pop_Favorites" (all projects)**
-- Select button `Basic_ButtonToggleFunctionTrigger~~1_S7\db_anl_0.op_auto`
-- Set Operation Lock → `LockMachineAutoMode`
-- Set lock text → `@<Verriegelung>`
-
-**Machine speed screen (project-dependent screen name)**
-
-| Project(s) | Screen name |
+| Language | Text |
 |---|---|
-| 1_HMI_13101, 1_HMI_13103, 1_HMI_13242, 1_HMI_13245, 1_HMI_13549, 1_HMI_13551 | `APPL_Machinemaster_Data` |
-| 1_HMI_13102, 1_HMI_13244, 1_HMI_13550 | `APPL_MachinemasterDataGeneral` |
-| 1_HMI_13104, 1_HMI_13246, 1_HMI_13552 | `Appl_Machinemaster0` |
+| German | Max. Geschwindigkeit während Tiptaster aktiv |
+| English | Max. speed while touch switch is active |
+| Italian | Velocità massima quando l'interruttore a sfioramento è attivo |
 
-Add new input field with:
-- Static text: `@<Maschinengeschwindigkeit>`
-- Display authorization level: 33
-- Variable: `1_S7\db_allgemein.r32._10`
-- Setpoint limits: inherit from variable
-- Authorization level: *Machine parametrization*
+#### String Content: `<Verriegelung>`
 
-No commit hashes, file paths, or line counts were recorded in the source artifact.
+| Language | Text |
+|---|---|
+| German | Funktion nicht möglich, solange die Maschine läuft oder Tiptaster an die Line angeschlossen ist! |
+| English | Function not possible while the machine is running or a Tip switch is connected to the line! |
+| Italian | Funzione non disponibile mentre la macchina è in funzione o se un interruttore a sfioramento è collegato alla linea! |
 
 ---
 
-## Sources
-- CS-03_Tip_Switch_Implementation_report (support_report), meshmakers.io, [Author 1], 2026-03-20, v1.0. Customer: Ompi, ticket 1378291.
+### 3.4 Adapting the "Start" Screen
+
+In the **"Start"** screen, select the following button and update its Operation Lock settings:
+
+| Parameter | Value |
+|---|---|
+| **Button** | `Basic_ButtonToggleFunctionTrigger~~1_S7\db_anl_0.op_auto` |
+| **Interlock (Verriegelung)** | `LockMachineAutoMode` |
+| **Text** | `@<Verriegelung>` |
+
+---
+
+### 3.5 Adapting the "Pop_Favorites" Screen
+
+In the **"Pop_Favorites"** screen, select the following button and update its Operation Lock settings:
+
+| Parameter | Value |
+|---|---|
+| **Button** | `Basic_ButtonToggleFunctionTrigger~~1_S7\db_anl_0.op_auto` |
+| **Interlock (Verriegelung)** | `LockMachineAutoMode` |
+| **Text** | `@<Verriegelung>` |
+
+---
+
+### 3.6 Adapting the Machine Speed Screen
+
+A new input field for the tip speed must be added to the machine speed screen. The target screen name varies by project:
+
+| Screen Name | Client Projects |
+|---|---|
+| `APPL_Machinemaster_Data` | 1_HMI_13101, 1_HMI_13103, 1_HMI_13242, 1_HMI_13245, 1_HMI_13549, 1_HMI_13551 |
+| `APPL_MachinemasterDataGeneral` | 1_HMI_13102, 1_HMI_13244, 1_HMI_13550 |
+| `Appl_Machinemaster0` | 1_HMI_13104, 1_HMI_13246, 1_HMI_13552 |
+
+#### New Input Field Configuration
+
+| Parameter | Value |
+|---|---|
+| **Static Text** | `@<Maschinengeschwindigkeit>` |
+| **Display Authorization Level** | 33 |
+| **Variable** | `1_S7\db_allgemein.r32._10` |
+| **Setpoint Limits** | Inherited from variable |
+| **Authorization Level** | Machine parametrization |
+
+---
+
+## Change History
+
+| Date | Version | Author | Reason |
+|---|---|---|---|
+| 2026-03-20 | 1.0 | [Author 1] | Initial creation |

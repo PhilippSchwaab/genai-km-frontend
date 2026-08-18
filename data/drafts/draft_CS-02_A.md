@@ -1,32 +1,63 @@
-## Summary
-Support report documenting the procedure to enable the Automatic Screenshot feature on the HMI of a Fresenius machine (machine number 13560). The report was authored by [Author 1] and initially created on 2026-02-19.
+# CS-02 – Automatic Screenshot (Automatischer Bildschirmdruck)
 
-## Decisions
-- (none recorded)
+**Source Artifact:** CS-02_Automatic_Screenshot_report (support_report)
+**Customer:** Fresenius
+**Machine Number:** 13560
+**Project Reference:** Groninger – Fresenius 1381922
+**Date:** 2025-02-19
+**Version:** 1.0
+**Author:** [Author 1]
 
-## Action items (with owner and due date where stated)
-- (none recorded)
+---
 
-## Blockers and open questions
-- Login credentials for user `gronservice2` are not included in the document and must be obtained separately ("wird bekannt gegeben" / "will be communicated").
+## Table of Contents
 
-## Implementation detail (commits, files, line counts where present)
-The following steps are required to enable the Automatic Screenshot feature on the machine HMI:
+1. [Project Information](#project-information)
+2. [Automatic Screenshot – Procedure](#automatic-screenshot--procedure)
 
-**Prerequisites**
-- A USB stick assigned drive letter `G:` must be connected to the machine HMI.
+---
 
-**Procedure**
-1. Log in with user `gronservice2` and the communicated password.
-2. Navigate to path `Service → Bedientabeau → Inbetriebnahme`.
-3. Click button `Fernwartung`.
-4. Activate button `Display access level`.
-5. Activate button `Automatischer Bildschirmdruck`.
+## Project Information
 
-**Verification**
-- Successful activation is confirmed by a status bar indicator showing that `Automatischer Bildschirmdruck` is active.
+| Field | Details |
+|---|---|
+| Customer | Fresenius |
+| Machine Number | 13560 |
+| Project Reference | Groninger – Fresenius 1381922 |
+| Report Date | 2025-02-19 |
+| Author | [Author 1] |
 
-No commits, files, or line counts are present in the source artifact.
+---
 
-## Sources
-- CS-02_Automatic_Screenshot_report (support_report), v1.0, authored by [Author 1], 2025-02-19. Customer: Fresenius, Machine Number: 13560.
+## Automatic Screenshot – Procedure
+
+### Prerequisite
+
+- A USB stick assigned drive letter **`G:`** must be connected to the machine's HMI before starting the procedure.
+
+### Steps
+
+1. Log in with the username **`gronservice2`** and the corresponding password *(password to be communicated separately)*.
+2. Navigate to the path: **`Service → Bedientabeau → Inbetriebnahme`**
+3. Click the **`Fernwartung`** (Remote Maintenance) button.
+4. Activate the **`Display access level`** button.
+5. Activate the **`Automatischer Bildschirmdruck`** (Automatic Screenshot) button.
+
+### Verification
+
+- Once activated, the status bar on the HMI will indicate that **Automatischer Bildschirmdruck** is active.
+
+---
+
+## Document History
+
+| Date | Version | Author | Reason for Change |
+|---|---|---|---|
+| 2025-02-19 | 1.0 | [Author 1] | Initial Creation |
+
+---
+
+## Notes & Limitations
+
+- The password for user `gronservice2` is not included in this report and must be obtained through a separate communication channel.
+- No decisions, action items, deadlines, or blockers were recorded in the source artifact beyond the procedural steps above.
